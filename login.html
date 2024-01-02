@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login User</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+</head>
+<style>
+    body{
+        font-family: 'Anonymous Pro', monospace;
+    }
+    .box{
+        width: 100%;
+        height: 40%;
+        background: #161A33;
+    }
+    .textLogin{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+    .imgLogo{
+        width: 70%;
+        height: 70%;
+    }
+
+    .cardForm{
+        width: 90%;
+        height: fit-content;
+        background: #D9D9D940;
+        border-radius: 10px;
+        margin: auto;
+    }
+    .radius{
+        border-radius: 20px;
+    }
+    .bottomBox{
+        width: 100%;
+        height: 40%;
+        background: #161A33;
+    }
+    
+    #splash {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .splash-logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .splash-logo img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .splash-text {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .splash-text h2 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+</style>
+<body>
+     <!-- splash screen -->
+     <div id="splash-1">
+          <div class="splash-loading">
+            <p>Harap Tunggu Sebentar </p>
+  
+          </div>
+        </div>
+      </div>
+   <div class="container-fluid col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 pt-0 pl-0 pr-0" style="height: 100px">
+        <div class="box"></div>
+            <div class="text-center">
+                <h2 class="textLogin mt-5">GROSIRMOE</h2>
+                <img src="assets/image/loginUser.png" class="imgLogo mt-5">
+            </div>
+            <div class="cardForm mt-3">
+                <form method="post" class="p-2">
+                    <table cellpadding="10">
+                        <tr>
+                            <td>
+                                <label for="email">EMAIL</label>
+                            </td>
+                            <td>
+                                <input type="email" name="email" id="email" placeholder="email" class="form-control radius">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="password">PASSWORD</label>
+                            </td>
+                            <td>
+                                <input type="password" name="password" id="password" placeholder="Password" class="form-control radius">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="button" name="login" class="btn" style="background-color:#D9D9D9; border-radius: 10px;">Masuk</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <div class="text-center my-2">
+                <p style="font-size: 16px;">Silahkan untuk melakukan login terlebih dahulu</p>
+            </div>
+
+            <div class="bottomBox">
+            </div>
+            
+   </div>
+
+</body>
+<script> 
+// create splah screen when load page
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("splash-1").style.display = "none";
+
+        
+      }, 1000);
+    });
+</script>
+<script src="assets/js/jquery-3.6.1.min.js"></script>
+<script src="assets/js/bootstrap.js"></script>
+
+</html>
