@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Admin</title>
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-
+    <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
 </head>
 <style>
@@ -46,7 +46,6 @@
         background: #161A33;
     }
 </style>
-<link rel="manifest" href="../manifest.json">
 <body>
    <div class="container-fluid col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 pt-0 pl-0 pr-0" style="height: 100px">
         <div class="box"></div>
@@ -97,4 +96,26 @@
 <script src="../assets/js/jquery-3.6.1.min.js"></script>
 <script src="../assets/js/bootstrap.js"></script>
 <script src="../assets/js/register.js"></script>
+<script src="../assets/js/scriptAdmin.js"></script>
+<script>
+    //on button click
+    document.querySelector("button").addEventListener("click", function(){
+        //get input value
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        //check if input value is empty
+        if(email == "" || password == ""){
+            alert("Email atau Password tidak boleh kosong");
+        }else{
+            //send data to server
+            const data = {
+                email: email,
+                password: password
+            }
+
+            login(data);
+        }
+    });
+</script>
 </html>
