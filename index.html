@@ -141,12 +141,6 @@
             <li class="nav-item">
             <a class="nav-link" href="#"><img src="assets/image/iconPembayaran.svg" class="text-align-middle"></a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link"><img src="assets/image/iconProfile.svg" class="mt-1"></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"><img src="assets/image/iconCart.svg" class="mt-1"></a>
-            </li>
         </ul>
 
         <div class="box mt-3">
@@ -177,7 +171,7 @@
         </div>
 
         <!-- footer -->
-        <div class="footer">
+        <div class="footer" id="footer">
             <div class="text-center text-white pt-4">
                 Copyrights © KELOMPOK 2 - PAPK 2024  
                 <br>
@@ -194,7 +188,8 @@
 <script src="assets/js/scriptUser.js"></script>
 
 <script>
-    
+    checkLogin();
+
     async function setData(){
         const data= await getPopularProduc();
 
@@ -230,7 +225,7 @@
                             </div>
                             <div style="height: 1px;"></div>
                     </div>
-                    <p class="text-center text-deskripsi mt-2">${produk.deskripsi}</p>
+                    <p class="text-center text-deskripsi mt-2">${produk.deskripsi_singkat}</p>
                 </div>
             `;
             content.innerHTML += html;
@@ -238,6 +233,9 @@
 
         //show data
         document.getElementById("content-produk-all").innerHTML = content.innerHTML;
+
+        //cetak kelayar isi json di footer
+       
     }
 
     setData();

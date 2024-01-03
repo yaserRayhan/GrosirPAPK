@@ -116,7 +116,7 @@
                         <tr>
                             <td></td>
                             <td>
-                                <button type="button" name="login" class="btn" style="background-color:#D9D9D9; border-radius: 10px;">Masuk</button>
+                                <button type="button" name="login" id="buttonLogin" class="btn" style="background-color:#D9D9D9; border-radius: 10px;">Masuk</button>
                             </td>
                         </tr>
                     </table>
@@ -145,5 +145,25 @@
 </script>
 <script src="assets/js/jquery-3.6.1.min.js"></script>
 <script src="assets/js/bootstrap.js"></script>
+<script src="assets/js/scriptUser.js"></script>
+<script>
+    //when button clicked
+    document.querySelector("#buttonLogin").addEventListener("click", function(){
+        //get input value
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
 
+        //check if input value is empty
+        if(email == "" || password == ""){
+            alert("Email atau Password tidak boleh kosong");
+        }else{
+            const data = {
+                email: email,
+                password: password
+            }
+
+            login(data);
+        }
+    });
+</script>
 </html>
