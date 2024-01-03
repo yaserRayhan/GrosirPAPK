@@ -49,3 +49,65 @@ async function getPopularProduc(){
         alert(err);
     }
 }
+
+async function getBarangByCaregory(category){
+    try{
+        const response = await fetch('http://localhost:3000/barang?kategori='+category);
+        const data = await response.json();
+        return data;
+    }catch(err){
+        alert(err);
+    }
+}
+
+async function getCart(){
+    try{
+        const response = await fetch('http://localhost:3000/cart',{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+localStorage.getItem('token')
+            },
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    }catch(err){
+        alert(err);
+    }
+}
+
+async function imageToBase64(file){
+    return new Promise((resolve,reject)=>{
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+async function bayar(noRekening, namaRekening, buktiPembayaran){
+    try{
+        const response = await fetch('http://localhost:3000/transaksi/pembelian',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                no_rekening_pembayar: noRekening,
+                nama_pembayar: namaRekening,
+                bukti_pembayaran: buktiPembayaran
+            })
+        });
+        const result = await response.json();
+        if(result?.transaksi?.id){
+            alert("Pembayaran berhasil");
+            window.location.href = "http://localhost:5500/index.html";
+        }else{
+            alert("Pembayaran gagal");
+        }
+        return result;
+    }catch(err){
+        alert("gagal terhubung ke server");
+    }
+}

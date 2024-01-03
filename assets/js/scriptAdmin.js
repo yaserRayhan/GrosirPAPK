@@ -142,3 +142,57 @@ async function logout(){
     alert("Logout berhasil");
     window.location.href = "http://localhost:5500/admin/login.html";
 }
+
+async function getPembayaran(){
+    try{
+        const response = await fetch('http://localhost:3000/transaksi',{
+            headers: {
+                'Authorization': 'Bearer '+localStorage.getItem('token'),
+            },
+        });
+        const data = await response.json();
+        return data;
+    }catch(err){
+        alert(err);
+    }
+}
+
+async function getPembayaranById(id){
+    try{
+        const response= await fetch(`http://localhost:3000/transaksi/${id}`,{
+            headers:{
+                'Authorization': 'Bearer '+localStorage.getItem('token'),
+            },
+        });
+        const data = await response.json();
+        return data;
+    }catch(err){
+        alert(err);
+    }
+}
+
+async function updatePembayaran(id){
+    try{
+        console.log(id);
+        const response = await fetch(`http://localhost:3000/transaksi/${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+localStorage.getItem('token'),
+            },
+            body: JSON.stringify({
+                status: 'selesai'
+            })
+        });
+        const result = await response.json();
+        if(result.affected){
+            alert("Pembayaran berhasil dikonfirmasi");
+            window.location.reload();
+        }else{
+            alert("Pembayaran gagal dikonfirmasi");
+        }
+        return result;
+    }catch(err){
+        alert(err);
+    }
+}
