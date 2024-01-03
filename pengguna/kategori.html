@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kategori Produk</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+  <link rel="stylesheet" href="../assets/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu Mono' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Wallpoet' rel='stylesheet'>
+  <style>
+    body {
+      margin-top: 50px;
+      /* Memberikan jarak dari atas halaman */
+      overflow: scroll;
+      height: 100vh;
+
+    }
+
+    .navbar-brand {
+      margin-left: 1%;
+      margin-right: 1%;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 40px;
+    }
+
+    .heading {
+      text-align: center;
+      color: black;
+      font-size: 20px;
+      font-family: "poppins";
+      font-weight: 750;
+      word-wrap: break-word
+    }
+
+    .lead {
+      font-size: 11px;
+      font-family: "Poppins";
+      color: rgba(0, 0, 0, 1);
+      width: 223px;
+      text-align: center;
+    }
+
+    .jumbotron {
+      text-align: center;
+      background-color: white;
+      background: rgba(225, 225, 225, 0.15);
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      align-items: center;
+    }
+
+    .kategori-baju {
+      color: #000000;
+      text-align: left;
+      font-family: 'Wallpoet';
+      font-size: 18px;
+      position: relative;
+    }
+
+    .card {
+      width: 18rem;
+      margin-bottom: 20px;
+    }
+
+    .card-content{
+      top: 325px;
+      left: 16px;
+      border-radius: 25px;
+      background: #D9D9D91A;
+      box-shadow: 0px 4px 4px 0px #00000040;
+    }
+
+    .text-content{
+      font-family: Wallpoet;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .text-content-small{
+      font-size: 11px;
+      font-family: Poppins;
+      margin-left: 15%;
+    }
+
+    .text-link{
+      font-size: 11px;
+      font-family: Poppins;
+    }
+
+    .footer{
+            width: 100%;
+            height: 100px;
+            background: #161A33;
+            bottom: 0;
+        }
+
+      .content-gambar{
+        width: 80%;
+        height: 80%;
+        border-radius: 20px;
+      }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 pt-0 pl-0 pr-0" style="height: 100px">
+    <div class="container-md">
+      <ul class="nav mt-4 justify-content-center">
+        <li class="nav-item">
+        <a class="nav-link" href="../index.html"><img src="../assets/image/iconhome.png" class="text-align-middle"></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#"><img src="../assets/image/iconProdukActive.svg" class="text-align-middle"></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="pembayaran.html"><img src="../assets/image/iconPembayaran.svg" class="text-align-middle"></a>
+        </li>
+    </ul>
+    </div>
+
+    <div class="heading">
+      Apa yang kamu cari ?
+    </div>
+    <div class="container">
+      <div class="jumbotron">
+        <hr style="height:1px;border-width:0;background-color:black; width: 85%;">
+        <center>
+          <div class="lead">Barang dari grosirmoe dikategorikan berdasarkan 3 jenis barang untuk memenuhi kebutuhanmu yang
+            tentunya memiliki kualitas bagus dan harga yang bersahabat
+            para grosirian
+          </div>
+        </center>
+        <hr style="height:1px;border-width:0;background-color:black; width: 85%;">
+      </div>
+    </div>
+
+    <div class="kategori-baju ml-3">
+      kategori Baju
+    </div>
+    
+    <div class="content-baju">
+      <div class="row mx-2" id="content-baju">
+
+
+
+      </div>
+    </div>
+
+
+
+    <!-- Sepatu -->
+    <div class="kategori-baju ml-3 mt-5">
+      kategori Sepatu
+    </div>
+    
+    <div class="content-baju" >
+      <div class="row mx-2" id="content-sepatu">
+
+
+        
+      </div>
+    </div>
+
+
+
+    <!-- Celana -->
+    <div class="kategori-baju ml-3 mt-5">
+      kategori Celana
+    </div>
+    
+    <div class="content-baju" >
+      <div class="row mx-2" id="content-celana">
+
+
+        
+      </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer mt-5" id="footer">
+      <div class="text-center text-white pt-4">
+          Copyrights © KELOMPOK 2 - PAPK 2024  
+          <br>
+          All Rights Reserved
+      </div>
+    </div>
+
+  </div>
+
+
+<script src="../assets/js/jquery-3.6.1.min.js"></script>
+<script src="../assets/js/bootstrap.js"></script>
+<script src="../assets/js/scriptUser.js"></script>
+
+<script>
+    checkLogin();
+
+    async function setData(){
+      const data= await getBarangByCaregory('pakaian');
+
+      let content = await document.getElementById("content-baju");
+
+      data.data.forEach(produk => {
+          // add to content
+          let html  = `
+          <div class="col mt-2">
+            <div class="card-content">
+              <center>
+                <img src="${produk.gambar}" class="content-gambar">
+              </center>
+                <br>
+                <div class="text-content">${produk.nama_barang}</div>
+                <div class="text-content">${produk.ukuran}</div>
+                <br>
+                <div class="text-content-small">Stok : ${produk.stok}</div>
+                <div class="text-content-small">${produk.harga} IDR</div>
+                <center><a href="" class="text-link">Lihat Selengkapnya</a></center>
+            </div>
+          </div>
+          `;
+
+          content.innerHTML += html;
+      });
+
+      document.getElementById("content-baju").innerHTML = content.innerHTML;
+
+
+      const dataCelana= await getBarangByCaregory('celana');
+
+      let contentCelana = await document.getElementById("content-celana");
+
+      dataCelana.data.forEach(produk => {
+          // add to content
+          let html  = `
+          <div class="col mt-2">
+            <div class="card-content">
+              <center>
+                <img src="${produk.gambar}" class="content-gambar">
+              </center>
+                <br>
+                <div class="text-content">${produk.nama_barang}</div>
+                <div class="text-content">${produk.ukuran}</div>
+                <br>
+                <div class="text-content-small">Stok : ${produk.stok}</div>
+                <div class="text-content-small">${produk.harga} IDR</div>
+                <center><a href="" class="text-link">Lihat Selengkapnya</a></center>
+            </div>
+          </div>
+          `;
+
+          contentCelana.innerHTML += html;
+      });
+
+      document.getElementById("content-celana").innerHTML = contentCelana.innerHTML;
+
+      const dataSepatu= await getBarangByCaregory('sepatu');
+
+      let contentSepatu = await document.getElementById("content-sepatu");
+
+      dataSepatu.data.forEach(produk => {
+          // add to content
+          let html  = `
+          <div class="col mt-2">
+            <div class="card-content">
+              <center>
+                <img src="${produk.gambar}" class="content-gambar">
+              </center>
+                <br>
+                <div class="text-content">${produk.nama_barang}</div>
+                <div class="text-content">${produk.ukuran}</div>
+                <br>
+                <div class="text-content-small">Stok : ${produk.stok}</div>
+                <div class="text-content-small">${produk.harga} IDR</div>
+                <center><a href="" class="text-link">Lihat Selengkapnya</a></center>
+            </div>
+          </div>
+          `;
+
+          contentSepatu.innerHTML += html;
+      });
+
+      document.getElementById("content-sepatu").innerHTML = contentSepatu.innerHTML;
+    }
+
+    setData();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grosir | Pembayaran</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu Mono' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Wallpoet' rel='stylesheet'>
+    <style>
+        .nav-teks{
+            color: #3C4D8A;
+            font-size: 10px;
+        }
+
+        .footer{
+            width: 100%;
+            height: 100px;
+            background: #161A33;
+            bottom: 0;
+            position: fixed;
+        }
+
+        .title{
+            font-size: 20px;
+            font-family: poppins;
+            text-align: center;
+            margin-top: 10%;
+        }
+
+        .box-bayar{
+            width: 95%;
+            background: #D9D9D9;
+            border-radius: 20px;
+            margin: auto;
+        }
+
+        .input-total{
+            width: 50px;
+            height: 30px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+            margin: auto;
+        }
+
+        .box-status{
+            width: 95%;
+            background: #D9D9D9;
+            border-radius: 10px;
+            margin: auto;
+            margin-top: 5%;
+        }
+
+        .btn-bayar{
+            margin: auto;
+            background-color: #161A33;
+            color: white;
+            width: 40%;
+            border-radius: 10px;
+        }
+
+        .image-barang{
+            width: 80%;
+            height: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 pt-0 pl-0 pr-0" style="height: 100px; width: 100%;">
+
+        <ul class="nav mt-4 justify-content-center">
+            <li class="nav-item">
+            <a class="nav-link" href="../index.html"><img src="../assets/image/iconhome.png" class="text-align-middle"></a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="kategori.html"><img src="../assets/image/iconProduct.svg" class="text-align-middle"></a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#"><img src="../assets/image/iconPembayaranActive.svg" class="text-align-middle"></a>
+            </li>
+        </ul>
+
+        <div class="title"><b>Bayar Dulu Yuk !</b></div>
+
+        <div id="dataBayar">
+
+        </div>
+
+        <div class="box-status">
+            <table align="center" cellpadding="10" class="text-center">
+                <tr>
+                    <td>
+                        Total Bayar
+                    </td>
+                    <td>
+                        Status
+                    </td>
+                </tr>
+                <tr>
+                    <td id="total-bayar">
+                       <b> 95.000 IDR</b>
+                    </td>
+                    <td id="status-bayar">
+                        <b>Belum Bayar</b>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="container-fluid mt-2">              
+                <center>
+                    <button type="button" id="button-bayar" class="btn btn-bayar"data-toggle="modal" data-target="#bayar">Bayar</button>
+                </center>
+                
+        </div>
+
+        <!-- footer -->
+        <div class="footer" id="footer">
+            <div class="text-center text-white pt-4">
+                Copyrights © KELOMPOK 2 - PAPK 2024  
+                <br>
+                All Rights Reserved
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="modal fade" id="bayar" tabindex="-1" aria-labelledby="bayarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="bayarLabel">Pembayaran</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">No. Rekening Anda</label>
+                      <input type="text" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Nama Pemilik Rekening</label>
+                      <input type="text" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Upload Bukti Pembayaran</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+              <button type="button" class="btn btn-primary" id="bayar-kirim-button">Kirim</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+<script src="../assets/js/jquery-3.6.1.min.js"></script>
+<script src="../assets/js/bootstrap.js"></script>
+<script src="../assets/js/scriptUser.js"></script>
+
+<script>
+    checkLogin();
+
+    async function setData(){
+        const data=await getCart();
+
+        let content = await document.getElementById("dataBayar");
+        let totalBayar=0;
+
+        data.data.forEach(produk => {
+            // add to content
+            const barang= produk.barang;
+            if(produk.jumlah >= barang.minimal_diskon){
+                produk.total_harga= produk.total_harga - barang.diskon;
+            }
+            let html  = `
+            <div class="box-bayar mt-2">
+                <table align="center" style="text-align: center;">
+                    <tr>
+                        <td>
+                            <img src="${barang.gambar}" class="image-barang">
+                        </td>
+                        <td>${barang.nama_barang}
+                            <br>
+                            ${barang.ukuran}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" class="form-control input-total" value="${produk.jumlah}" min="0" readonly>
+                        </td>
+                        <td>
+    
+                            ${produk.total_harga} IDR
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            `;
+            totalBayar+=produk.total_harga;
+
+            content.innerHTML+=html;
+        });
+
+        document.getElementById("dataBayar").innerHTML=content.innerHTML;
+        document.getElementById("total-bayar").innerHTML=`<b>${totalBayar} IDR</b>`;
+    }
+    setData();
+
+    //jika tombol bayar diklik
+    document.getElementById("bayar-kirim-button").addEventListener("click", async function(){
+        const noRekening= await document.getElementById("exampleInputEmail1").value;
+        const namaRekening= await document.getElementById("exampleInputPassword1").value;
+        let buktiPembayaran= await document.getElementById("exampleFormControlFile1").files[0];
+
+        buktiPembayaran = await imageToBase64(buktiPembayaran);
+
+        const data= await bayar(noRekening, namaRekening, buktiPembayaran);
+
+    });
+</script>
+</body>
+</html>
