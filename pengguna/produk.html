@@ -16,8 +16,10 @@
     body {
       margin-top: 50px;
       /* Memberikan jarak dari atas halaman */
-      overflow: scroll;
+      overflow-y: scroll;
       height: 100vh;
+      max-width: 100%;
+      overflow-x: hidden !important;
 
     }
 
@@ -75,69 +77,49 @@
       font-weight: bold;
       font-size: 20px;
     }
+
+    .center {
+      /* set div to center horizontal */
+      margin: auto;
+      /* Set width to desired width */
+
+    }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-12">
-        <div class="card">
-          <img src="../assets/image/Kemeja.png" class="card-img-top" alt="...">
+  <div class="container center">
+    <div class="row justify-content-center center">
+      <div class="col-md-10 center">
+        <div class="card center">
+          <center>
+            <img src="" class="card-img-top" style="width: 80%;" id="image-content">
+          </center>
           <div class="card-body" style="background-color:#161A33; ">
             <h5>Produk ini memiliki promo</h5>
           </div>
-          <div class="produk">
+          <div class="produk" id="nama-produk">
             Baju Santai - Motif Abstrak, L -XL
           </div>
-          <div class="harga">
+          <div class="harga" id="harga-produk">
             95.000 IDR
           </div>
-          <div class="custom-box">
+          <div class="custom-box" id="diskon-produk">
             <p>Ada Potongan 10.000 per 5 pcs</p>
           </div>
-          <div class="card-body">
+          <div class="card-body" id="total-terjual">
             <p>Terjual 135</p>
-          </div>
+          </div>          
           <div class="card-body text-center">
-            <a href="#" class="btn btn-primary">Beli</a>
+            <input type="number" id="total-beli" min="1" style="width: 30%;" value="1">
+            <button type="button" id="button-beli" class="btn btn-primary">Beli</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="content">
+    <div class="content ml-2">
       <h1>Detail Produk</h1>
-      <p>Baju Santai - Motif Abstrak, L -XL
-
-        Keterangan bahan produk :
-        • Regular Fit.
-        • Sablon plastisol
-        • Linen 24s.( kain tipis adem)
-        • Gramasi 170-180.
-
-        Keterangan Ukuran Produk :
-        • L :
-        Lebar 51 cm
-        Panjang 73 cm
-
-        • XL :
-        Lebar 53 cm
-        Panjang 75 cm
-        (Toleransi penyusutan ukuran ±1-2cm).
-        Tips Perawatan :
-
-        1. Mencuci
-        • Usahakan mencuci kaos dengan warna yang sama
-        • Cuci dengan air dingin
-        • Jangan gunakan pemutih.
-        •jika di haruskan, gunakan lah secukupnya dan jangan sampai berlebih
-        •Rendam baju dengan air sabun dengan waktu yang singkat saja
-
-        2. Menyetrika
-        • Setrika dengan suhu yang tidak terlalu tinggi
-        • Hindari gambar terkena langsung dengan setrika
-
-        Dengan mengikuti tips perawatan ini anda dapat membuat baju anda awet dan tahan lebih lama.</p>
+      <p id="deskripsi">Baju Santai - Motif Abstrak, L -XL</p>
     </div>
   </div>
 
@@ -145,6 +127,71 @@
 
 
 
+  <script src="../assets/js/jquery-3.6.1.min.js"></script>
+  <script src="../assets/js/bootstrap.js"></script>
+
+  <script src="../assets/js/scriptUser.js"></script>
+
+  <script>
+    async function getProduk() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      const response = await fetch(`http://localhost:3000/barang/${id}`);
+      const data = await response.json();
+      console.log(data);
+      $('#nama-produk').html(data.nama_barang + " - " + data.ukuran);
+      $('#harga-produk').html(data.harga);
+      $('#deskripsi').html(data.deskripsi);
+      $('#total-terjual').html(`Terjual ${data.total_dibeli}`);
+      $('#image-content').attr('src', `${data.gambar}`);
+
+      //set max input total beli
+      $('#total-beli').attr('max', data.stok);
+
+      //set diskon
+      if (data.diskon != null) {
+        $('#diskon-produk').html(`Ada Potongan ${data.diskon} per ${data.minimal_diskon} pcs`);
+      } else {
+        $('#diskon-produk').html(``);
+      }
+    }
+
+    getProduk();
+
+    //if button beli clicked
+    $('#button-beli').click(async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      const totalBeli = $('#total-beli').val();
+      const response = await fetch(`http://localhost:3000/barang/${id}`);
+      const data = await response.json();
+      const harga = data.harga;
+      const totalHarga = harga * totalBeli;
+      const user = await localStorage.getItem('token');
+      const idUser = user.id;
+      const dataPembelian = {
+        barangId: parseInt(id),
+        jumlah: parseInt(totalBeli),
+      }
+      console.log(dataPembelian);
+      const responsePembelian = await fetch('http://localhost:3000/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user}`
+        },
+        body: JSON.stringify(dataPembelian)
+      });
+      const dataPembelianResponse = await responsePembelian.json();
+      
+      if (dataPembelianResponse.id) {
+        alert('Berhasil membeli produk');
+        window.location.href = 'pembayaran.html';
+      } else {
+        alert('Gagal membeli produk');
+      }
+    });
+  </script>
 </body>
 
 </html>
